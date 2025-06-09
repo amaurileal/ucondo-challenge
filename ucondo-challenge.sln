@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D429C77A-F710-46BA-BF81-A6B8CAEE7743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ucondo-challenge.infrastructure", "src\ucondo-challenge.infrastructure\ucondo-challenge.infrastructure.csproj", "{B8423798-9840-490C-BD19-87F9AFE31586}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ucondo-challenge.business", "src\ucondo-challenge.business\ucondo-challenge.business.csproj", "{56083692-4BB4-4D12-901F-FE851C9FB004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ucondo-challenge.api", "src\ucondo-challenge.api\ucondo-challenge.api.csproj", "{521C31C0-7B5E-43B9-A680-B1629543E8B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ucondo-challenge.application", "src\ucondo-challenge.application\ucondo-challenge.application.csproj", "{B71384F2-22EF-396D-3E6C-CCC647E33EB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8423798-9840-490C-BD19-87F9AFE31586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8423798-9840-490C-BD19-87F9AFE31586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8423798-9840-490C-BD19-87F9AFE31586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8423798-9840-490C-BD19-87F9AFE31586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56083692-4BB4-4D12-901F-FE851C9FB004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56083692-4BB4-4D12-901F-FE851C9FB004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56083692-4BB4-4D12-901F-FE851C9FB004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56083692-4BB4-4D12-901F-FE851C9FB004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521C31C0-7B5E-43B9-A680-B1629543E8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521C31C0-7B5E-43B9-A680-B1629543E8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521C31C0-7B5E-43B9-A680-B1629543E8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521C31C0-7B5E-43B9-A680-B1629543E8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B71384F2-22EF-396D-3E6C-CCC647E33EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B71384F2-22EF-396D-3E6C-CCC647E33EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B71384F2-22EF-396D-3E6C-CCC647E33EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B71384F2-22EF-396D-3E6C-CCC647E33EB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8423798-9840-490C-BD19-87F9AFE31586} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{56083692-4BB4-4D12-901F-FE851C9FB004} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{521C31C0-7B5E-43B9-A680-B1629543E8B7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B71384F2-22EF-396D-3E6C-CCC647E33EB8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE64B6E6-2EBE-49D4-A91D-BA923C7AF9AA}
+	EndGlobalSection
+EndGlobal
