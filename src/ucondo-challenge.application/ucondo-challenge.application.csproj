@@ -11,4 +11,12 @@
     <ProjectReference Include="..\ucondo-challenge.business\ucondo-challenge.business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ChartOfAccounts\Commands\Delete\" />
+    <Folder Include="ChartOfAccounts\Commands\Update\" />
+    <Folder Include="ChartOfAccounts\Commands\Create\" />
+    <Folder Include="ChartOfAccounts\Queries\GetAllParent\" />
+    <Folder Include="ChartOfAccounts\Queries\GetByParent\" />
+  </ItemGroup>
+
 </Project>

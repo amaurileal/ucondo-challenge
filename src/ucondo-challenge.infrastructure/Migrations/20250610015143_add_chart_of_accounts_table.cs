@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ucondo_challenge.infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addchart_of_accounts_table : Migration
+    public partial class add_chart_of_accounts_table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,23 +20,14 @@ namespace ucondo_challenge.infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     AllowEntries = table.Column<bool>(type: "boolean", nullable: false),
                     Code = table.Column<string>(type: "text", nullable: false),
-                    ParentId = table.Column<int>(type: "integer", nullable: false),
-                    ParentId1 = table.Column<Guid>(type: "uuid", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChartOfAccounts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChartOfAccounts_ChartOfAccounts_ParentId1",
-                        column: x => x.ParentId1,
-                        principalTable: "ChartOfAccounts",
-                        principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChartOfAccounts_ParentId1",
-                table: "ChartOfAccounts",
-                column: "ParentId1");
         }
 
         /// <inheritdoc />

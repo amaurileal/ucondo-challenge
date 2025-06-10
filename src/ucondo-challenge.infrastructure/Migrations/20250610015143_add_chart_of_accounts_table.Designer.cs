@@ -12,8 +12,8 @@ using ucondo_challenge.infrastructure;
 namespace ucondo_challenge.infrastructure.Migrations
 {
     [DbContext(typeof(UCondoChallengeDbContext))]
-    [Migration("20250609175336_add-chart_of_accounts_table")]
-    partial class addchart_of_accounts_table
+    [Migration("20250610015143_add_chart_of_accounts_table")]
+    partial class add_chart_of_accounts_table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,33 +38,25 @@ namespace ucondo_challenge.infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ParentId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("ParentId1")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId1");
-
                     b.ToTable("ChartOfAccounts");
-                });
-
-            modelBuilder.Entity("ucondo_challenge.business.Entities.ChartOfAccountsEntity", b =>
-                {
-                    b.HasOne("ucondo_challenge.business.Entities.ChartOfAccountsEntity", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId1");
-
-                    b.Navigation("Parent");
                 });
 #pragma warning restore 612, 618
         }
