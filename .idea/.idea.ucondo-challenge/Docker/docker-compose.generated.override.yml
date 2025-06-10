@@ -2,7 +2,7 @@
 services:
   ucondo-challenge.api:
     build:
-      context: "E:\\projects\\personal\\ucondo-challenge"
+      context: "C:\\projects\\asl\\ucondo\\ucondo-challenge"
       dockerfile: "src/ucondo-challenge.api/Dockerfile"
       target: "base"
       args:
@@ -15,7 +15,7 @@ services:
     - "--mode=server"
     - "--frontend-port=57000"
     - "--backend-port=57200"
-    - "--roslyn-worker-port=57400"
+    - "--roslyn-worker-port=57402"
     - "--timeout=60"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
@@ -23,16 +23,16 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "ucondochallengeapi:dev"
     ports:
-    - "127.0.0.1:57000:57000"
-    - "127.0.0.1:57200:57200"
-    - "127.0.0.1:57400:57400"
+    - "127.0.0.1:57002:57000"
+    - "127.0.0.1:57202:57200"
+    - "127.0.0.1:57402:57402"
     volumes:
-    - "E:\\projects\\personal\\ucondo-challenge\\src\\ucondo-challenge.api:/app:rw"
-    - "E:\\projects\\personal\\ucondo-challenge:/src:rw"
+    - "C:\\projects\\asl\\ucondo\\ucondo-challenge\\src\\ucondo-challenge.api:/app:rw"
+    - "C:\\projects\\asl\\ucondo\\ucondo-challenge:/src:rw"
     - "C:\\Users\\amaur\\.nuget\\packages:/home/app/.nuget/packages"
     - "C:\\Users\\amaur\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2025.1.2\\\
       Linux64:/opt/JetBrains/RiderDebuggerTools"
-    - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.1.2\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
+    - "C:\\Users\\amaur\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     - "C:\\Users\\amaur\\AppData\\Local\\JetBrains\\Rider2025.1\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2025_6_09_22_25_13:/var/opt/JetBrains/RiderDebuggerTools:rw"
+      JetBrains.Debugger.Worker.2025_6_10_14_10_41:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"
