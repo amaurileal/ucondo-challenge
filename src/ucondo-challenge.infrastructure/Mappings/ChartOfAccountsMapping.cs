@@ -13,6 +13,10 @@ namespace ucondo_challenge.infrastructure.Mappings
                 .HasColumnName("id")
                 .ValueGeneratedOnAdd();
 
+            builder.Property(x => x.TenantId)
+                .HasColumnName("tenant_id")
+                .IsRequired();
+
             builder.Property(x => x.Type)
                 .HasColumnName("type")
                 .IsRequired();
@@ -35,7 +39,7 @@ namespace ucondo_challenge.infrastructure.Mappings
                 .HasColumnName("parent_id")
                 .IsRequired(false);
 
-            builder.HasOne(x => x.Parent)
+            builder.HasOne(x => x.Parent)                
                 .WithMany()
                 .HasForeignKey(x => x.ParentId);
 
@@ -55,6 +59,7 @@ namespace ucondo_challenge.infrastructure.Mappings
                 .HasColumnName("updated_at");
 
             builder.HasIndex(x => x.Id);
+            builder.HasIndex(x => x.TenantId);
             builder.HasIndex(x => x.Code).IsUnique();
             builder.HasIndex(x => x.Name).IsUnique();
         }

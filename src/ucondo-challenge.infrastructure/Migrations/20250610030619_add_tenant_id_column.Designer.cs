@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ucondo_challenge.infrastructure;
@@ -11,9 +12,11 @@ using ucondo_challenge.infrastructure;
 namespace ucondo_challenge.infrastructure.Migrations
 {
     [DbContext(typeof(UCondoChallengeDbContext))]
-    partial class UCondoChallengeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250610030619_add_tenant_id_column")]
+    partial class add_tenant_id_column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
