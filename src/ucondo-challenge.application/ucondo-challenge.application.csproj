@@ -14,9 +14,15 @@
   <ItemGroup>
     <Folder Include="ChartOfAccounts\Commands\Delete\" />
     <Folder Include="ChartOfAccounts\Commands\Update\" />
-    <Folder Include="ChartOfAccounts\Commands\Create\" />
     <Folder Include="ChartOfAccounts\Queries\GetAllParent\" />
     <Folder Include="ChartOfAccounts\Queries\GetByParent\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
   </ItemGroup>
 
 </Project>

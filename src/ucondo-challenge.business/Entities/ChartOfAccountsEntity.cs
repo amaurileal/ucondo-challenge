@@ -9,7 +9,7 @@ namespace ucondo_challenge.business.Entities
         public string Name { get; set; }
         public bool AllowEntries { get; set; }
         public string Code { get; set; }
-        public int? ParentId { get; set; }
+        public Guid? ParentId { get; set; }
         public ChartOfAccountsEntity? Parent { get; set; }
     }
 }
