@@ -5,14 +5,10 @@ services:
       context: .
       dockerfile: src/ucondo-challenge.api/Dockerfile
   db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
+    image: postgres
+  redis:
+    image: redis:latest    
 
 volumes:
   db_data:
+  redis_data:  
