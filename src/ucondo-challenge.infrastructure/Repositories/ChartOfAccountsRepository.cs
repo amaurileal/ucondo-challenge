@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ucondo_challenge.business.Entities;
 using ucondo_challenge.business.Repositories;
+using ucondo_challenge.infrastructure.Persistence;
 
 namespace ucondo_challenge.infrastructure.Repositories
 {
@@ -48,7 +49,7 @@ namespace ucondo_challenge.infrastructure.Repositories
                 .FirstOrDefaultAsync(coa => coa.Id == id, cancellationToken);
         }
 
-        public async Task<IEnumerable<ChartOfAccountsEntity>> GetByParentId(Guid tenantId, int parentId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ChartOfAccountsEntity>> GetByParentId(Guid tenantId, Guid parentId, CancellationToken cancellationToken)
         {
            return await dbContext.ChartOfAccounts
                 .Where(coa => coa.TenantId == tenantId && coa.ParentId == parentId)

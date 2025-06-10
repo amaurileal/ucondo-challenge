@@ -1,20 +1,27 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.Logging;
+using ucondo_challenge.business.Entities;
+using ucondo_challenge.business.Repositories;
 
 namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
 {
     public sealed class ChartOfAccountsCreateCommandHandler(
-            ILogger<ChartOfAccountsCreateCommandHandler> logger
+            ILogger<ChartOfAccountsCreateCommandHandler> logger,
+            IChartOfAccountsRepository repository,
+            IMapper mapper
             ) : IRequestHandler<ChartOfAccountsCreateCommand, bool>
     {
         public 
-            Task<bool> Handle(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
+            async Task<bool> Handle(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
         {
             logger.LogInformation("Creating Chart of Accounts with details: {@Request}", request.ToString());
 
-            //Task.Delay(1000, cancellationToken).Wait(cancellationToken); // Simulate a delay for the operation
+            var entity = mapper.Map<ChartOfAccountsEntity>(request);
 
-            return Task.FromResult(true);
+            return await repository.CreateAsync(entity, cancellationToken) != Guid.Empty
+                ? true
+                : false;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ucondo_challenge.business.Repositories
         Task<int> DeleteAsync(ChartOfAccountsEntity entity, CancellationToken cancellationToken);
         Task<ChartOfAccountsEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<IEnumerable<ChartOfAccountsEntity>> GetAllAsync(Guid tenantId, CancellationToken cancellationToken);
-        Task<IEnumerable<ChartOfAccountsEntity>> GetByParentId(Guid tenantId, int parentId, CancellationToken cancellationToken);
+        Task<IEnumerable<ChartOfAccountsEntity>> GetByParentId(Guid tenantId, Guid parentId, CancellationToken cancellationToken);
         Task<IEnumerable<ChartOfAccountsEntity>> GetAllParentsAsync(Guid tenantId, CancellationToken cancellationToken);
         Task SaveChanges();
     }
