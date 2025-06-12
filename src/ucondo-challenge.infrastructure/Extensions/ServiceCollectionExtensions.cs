@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using ucondo_challenge.business.Repositories;
+using ucondo_challenge.infrastructure.Cache;
 using ucondo_challenge.infrastructure.Persistence;
 using ucondo_challenge.infrastructure.Repositories;
+using ucondo_challenge.infrastructure.Seeders;
 
 namespace ucondo_challenge.infrastructure.Extensions
 {
@@ -28,7 +31,9 @@ namespace ucondo_challenge.infrastructure.Extensions
                 DatabaseInitializer.MigrateDatabase(context);
             }
 
-            services.AddScoped<IChartOfAccountsRepository, ChartOfAccountsRepository>();
+            services.AddScoped<IRedisCache,RedisCache>();
+            services.AddScoped<IChartOfAccountsRepository, CachedChartOfAccountsRepository>();
+            services.AddScoped<IUCondoChallengeSeeder, UCondoChallengeSeeder>();
         }
     }
 }

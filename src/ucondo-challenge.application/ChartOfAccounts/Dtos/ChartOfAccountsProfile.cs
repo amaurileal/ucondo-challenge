@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Create;
+using ucondo_challenge.application.ChartOfAccounts.Commands.Update;
 using ucondo_challenge.business.Entities;
 
 namespace ucondo_challenge.application.ChartOfAccounts.Commands.Dtos
@@ -14,6 +15,8 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Dtos
         public ChartOfAccountsProfile()
         {
             CreateMap<ChartOfAccountsCreateCommand, ChartOfAccountsEntity>();
+            CreateMap<ChartOfAccountsEntity, ChartOfAccountsDto>();
+            CreateMap<ChartOfAccountsUpdateCommand, ChartOfAccountsEntity>();
         }
     }
 }

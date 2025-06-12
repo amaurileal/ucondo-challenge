@@ -12,7 +12,7 @@ using ucondo_challenge.infrastructure.Persistence;
 namespace ucondo_challenge.infrastructure.Migrations
 {
     [DbContext(typeof(UCondoChallengeDbContext))]
-    [Migration("20250610052001_initial")]
+    [Migration("20250611134501_initial")]
     partial class initial
     {
         /// <inheritdoc />

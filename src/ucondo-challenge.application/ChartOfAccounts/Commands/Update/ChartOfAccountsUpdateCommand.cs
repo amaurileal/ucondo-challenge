@@ -3,10 +3,13 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ucondo_challenge.business.Enum;
 
-namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
+namespace ucondo_challenge.application.ChartOfAccounts.Commands.Update
 {
-    public sealed class ChartOfAccountsCreateCommand : IRequest<Guid>
-    {        
+    public sealed class ChartOfAccountsUpdateCommand : IRequest
+    {
+        [JsonIgnore]
+        public Guid Id { get; set; }
+        [JsonIgnore] 
         public Guid TenantId { get; set; }
         public AccountType Type { get; set; } 
         public string? Name { get; set; }
