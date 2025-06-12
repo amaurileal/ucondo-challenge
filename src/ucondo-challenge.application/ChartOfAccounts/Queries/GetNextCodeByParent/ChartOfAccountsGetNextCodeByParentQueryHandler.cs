@@ -19,6 +19,10 @@ public class ChartOfAccountsGetNextCodeByParentQueryHandler(
 
         //check if parent exists
         var parentEntity = await repository.GetByIdAsync(request.TenantId, request.ParentId, cancellationToken);
+
+        if (parentEntity.AllowEntries)
+            throw new BadRequestException($"TenantId:{request.TenantId}. Chart of Accounts with AllowEntries set to true cannot have children. {parentEntity.ToString()}");
+
         if (parentEntity == null)
             throw new NotFoundException(nameof(ChartOfAccountsEntity), request.ParentId.ToString());
 
@@ -30,8 +34,8 @@ public class ChartOfAccountsGetNextCodeByParentQueryHandler(
 
     }
 
-    private async Task<string> GetNextCodeByParentRecursive(Guid tenantId, string parentCode, List<ChartOfAccountsEntity> registers, CancellationToken cancellationToken)
-    {
+    private async Task<string> GetNextCodeByParentRecursive(Guid tenantId, string parentCode, List<ChartOfAccountsEntity> registers, CancellationToken cancellationToken, string result = null)
+    {        
         var maiorNumero = registers
             .Select(x => x.Code.Split('.').Last())
             .Select(numStr => int.Parse(numStr))
@@ -39,22 +43,24 @@ public class ChartOfAccountsGetNextCodeByParentQueryHandler(
 
         if (maiorNumero < 999)
         {
-            return parentCode + $".{(maiorNumero + 1)}";
+            result += parentCode + $".{(maiorNumero + 1)}";
         }
         else
         {
             int lastDotIndex = parentCode.LastIndexOf('.');
             string newCode = (lastDotIndex!=-1)? parentCode.Substring(0, lastDotIndex) : throw new Exception("Codigo indisponivel para o seguinte pai");
 
-            var newParentId = registers.FirstOrDefault(x => x.Code == newCode);
+            result += $"Atingiu Max: {parentCode}.{maiorNumero}. Novo Pai deve ser: {newCode} e Codigo:";
+
+            var newParentId = await repository.GetByCodeAsync(tenantId, newCode, cancellationToken);
 
             if (newParentId == null)
-                throw new NotFoundException(nameof(ChartOfAccountsEntity), newCode);
+                throw new BadRequestException($"TenantId:{tenantId}. {result}. Esse codigo pai não existe!");
 
             var newRegisters = await repository.GetAllByParentId(tenantId, newParentId.Id,cancellationToken);
-            return await GetNextCodeByParentRecursive(tenantId, newCode, newRegisters.ToList(), cancellationToken);
+            return await GetNextCodeByParentRecursive(tenantId, newCode, newRegisters.ToList(), cancellationToken, result);
         }
 
-        return null;
+        return result;
     }
 }

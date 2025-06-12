@@ -32,7 +32,7 @@ namespace ucondo_challenge.infrastructure.Extensions
             }
 
             services.AddScoped<IRedisCache,RedisCache>();
-            services.AddScoped<IChartOfAccountsRepository, CachedChartOfAccountsRepository>();
+            services.AddScoped<IChartOfAccountsRepository, ChartOfAccountsRepository>();
             services.AddScoped<IUCondoChallengeSeeder, UCondoChallengeSeeder>();
         }
     }
