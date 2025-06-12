@@ -4,6 +4,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=ucondo_challenge;Username=postgres;Password=postgres      
     ports:
       - "6060:8080"
       - "6061:8081"
@@ -17,6 +18,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ucondo_challenge
     ports:
       - "5432:5432"
     volumes:
