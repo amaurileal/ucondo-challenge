@@ -5,6 +5,7 @@ using ucondo_challenge.api.ViewModels.ChartOfAccounts.Create.Mapping;
 using ucondo_challenge.api.ViewModels.ChartOfAccounts.Update;
 using ucondo_challenge.api.ViewModels.ChartOfAccounts.Update.Mapping;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Create;
+using ucondo_challenge.application.ChartOfAccounts.Commands.Delete;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Dtos;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Update;
 using ucondo_challenge.application.ChartOfAccounts.Queries.GetAllParents;
@@ -60,6 +61,13 @@ namespace ucondo_challenge.api.Controllers
         {
             var nextCode = await mediator.Send(new ChartOfAccountsGetNextCodeByParentQuery(tenantId, parentId));
             return Ok(nextCode);
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<string>> Delete([FromHeader] Guid tenantId, Guid Id)
+        {
+            await mediator.Send(new ChartOfAccountsDeleteCommand(tenantId, Id));
+            return NoContent();
         }
     }
 }

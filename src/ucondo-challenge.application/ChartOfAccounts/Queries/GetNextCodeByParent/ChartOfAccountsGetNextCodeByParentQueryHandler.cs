@@ -41,16 +41,16 @@ public class ChartOfAccountsGetNextCodeByParentQueryHandler(
             .Select(numStr => int.Parse(numStr))
             .Max();
 
-        if (maiorNumero < 999)
+            if (maiorNumero < 999)
         {
-            result += parentCode + $".{(maiorNumero + 1)}";
+            result += $"Codigo:{parentCode}.{(maiorNumero + 1)}";
         }
         else
         {
             int lastDotIndex = parentCode.LastIndexOf('.');
-            string newCode = (lastDotIndex!=-1)? parentCode.Substring(0, lastDotIndex) : throw new Exception("Codigo indisponivel para o seguinte pai");
+            string newCode = (lastDotIndex!=-1)? parentCode.Substring(0, lastDotIndex) : (int.Parse(parentCode) - 1).ToString();
 
-            result += $"Atingiu Max: {parentCode}.{maiorNumero}. Novo Pai deve ser: {newCode} e Codigo:";
+            result += $"Atingiu Max: {parentCode}.{maiorNumero}. Novo Pai deve ser: {newCode}. ";
 
             var newParentId = await repository.GetByCodeAsync(tenantId, newCode, cancellationToken);
 

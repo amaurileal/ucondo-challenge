@@ -66,7 +66,6 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
                 if (!request.Code.StartsWith(parentEntity.Code))
                     throw new BadRequestException($"Code {request.Code} is not a child of parent code {parentEntity.Code}.");
 
-
             }
         }
     }
