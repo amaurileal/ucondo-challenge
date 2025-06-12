@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Text;
@@ -29,43 +29,55 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
 
         private async Task Validations(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
         {
-            var requiredFieldValidator = new ChartOfAccountsCreateCommandValidator();
-            var validate = await requiredFieldValidator.ValidateAsync(request, cancellationToken);
-            var message = new StringBuilder();
-            if (validate.Errors.Any())
-            {
-                foreach (var erro in validate.Errors)
-                {                    
-                message.AppendLine(erro.ErrorMessage);
-                }
-                throw new BadRequestException(message.ToString());
-            }  
-
-            var register = await repository.GetByCodeAsync(request.TenantId, request.Code!, cancellationToken);
-            if (register != null)
-                throw new BadRequestException($"Code {request.Code} already provided");
-
-
-            // Parent Validations if provided
+            await ValidateRequiredFieldsAsync(request, cancellationToken);
+            await ValidateUniqueCodeAsync(request, cancellationToken);
             if (request.ParentId.HasValue)
             {
-                //Check if the parent exists
-                var parentEntity = await repository.GetByIdAsync(request.TenantId, request.ParentId.Value, cancellationToken);
-                if (parentEntity == null)                
-                    throw new BadRequestException($"Parent not found: {request.ParentId.Value}");
-                
-                //check if allowed is set to false.
-                if (parentEntity!.AllowEntries)
-                    throw new BadRequestException($"Parent Chart of Accounts with ID {request.ParentId.Value} does not allow children.");
+                await ValidateParentAsync(request, cancellationToken);
+            }
+        }
 
-                //check if the parent type is compatible with the new account type
-                if (parentEntity.Type != request.Type)
-                    throw new BadRequestException($"Parent Chart of Accounts with ID {request.ParentId.Value} is of type {parentEntity.Type}, but the new account is of type {request.Type}.");
+        private async Task ValidateRequiredFieldsAsync(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
+        {
+            var validator = new ChartOfAccountsCreateCommandValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var message = string.Join("\n", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new BadRequestException(message);
+            }
+        }
 
-                //check if code is child of parent code
-                if (!request.Code.StartsWith(parentEntity.Code))
-                    throw new BadRequestException($"Code {request.Code} is not a child of parent code {parentEntity.Code}.");
+        private async Task ValidateUniqueCodeAsync(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
+        {
+            var register = await repository.GetByCodeAsync(request.TenantId, request.Code!, cancellationToken);
+            if (register != null)
+            {
+                throw new BadRequestException($"Code {request.Code} already provided for tenant {request.TenantId}");
+            }
+        }
 
+        private async Task ValidateParentAsync(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
+        {
+            var parentEntity = await repository.GetByIdAsync(request.TenantId, request.ParentId!.Value, cancellationToken);
+            if (parentEntity == null)
+            {
+                throw new BadRequestException($"Parent not found: {request.ParentId.Value}");
+            }
+
+            if (parentEntity.AllowEntries)
+            {
+                throw new BadRequestException($"Parent Chart of Accounts with ID {request.ParentId.Value} does not allow children.");
+            }
+
+            if (parentEntity.Type != request.Type)
+            {
+                throw new BadRequestException($"Parent Chart of Accounts with ID {request.ParentId.Value} is of type {parentEntity.Type}, but the new account is of type {request.Type}.");
+            }
+
+            if (!request.Code!.StartsWith(parentEntity.Code))
+            {
+                throw new BadRequestException($"Code {request.Code} is not a child of parent code {parentEntity.Code}.");
             }
         }
     }

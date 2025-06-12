@@ -10,7 +10,7 @@ namespace ucondo_challenge.infrastructure.Repositories
         ) : IChartOfAccountsRepository
     {
         public async Task<Guid> CreateAsync(ChartOfAccountsEntity entity, CancellationToken cancellationToken)
-        {
+        {            
             dbContext.ChartOfAccounts.Add(entity);
             await dbContext.SaveChangesAsync();
             return entity.Id;

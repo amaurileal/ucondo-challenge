@@ -62,7 +62,7 @@ namespace ucondo_challenge.infrastructure.Mappings
 
             builder.HasIndex(x => x.Id);
             builder.HasIndex(x => x.TenantId);
-            builder.HasIndex(x => x.Code).IsUnique();
+            builder.HasIndex(x => new {x.TenantId, x.Code}).IsUnique();
         }
     }
 }
