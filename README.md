@@ -38,3 +38,12 @@ Projeto para desafio técnico, desenvolvido com tecnologias modernas para garant
 Abra o terminal na raiz do projeto e execute:
 ```bash
 docker-compose up -d
+```
+---
+
+## ✅ Todos
+
+- [ ] Criar Testes Unitários
+- [ ] Criar Componente de Log, para padronizar e melhorar a observabilidade
+- [ ] Criar Payload padrão de retorno
+- [ ] Criar Resources para internacionalização

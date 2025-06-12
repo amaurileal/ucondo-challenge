@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using ucondo_challenge.business.Entities;
 using ucondo_challenge.business.Exceptions;
@@ -9,8 +8,7 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Delete
 {
     public sealed class ChartOfAccountsDeleteCommandHandler(
             ILogger<ChartOfAccountsDeleteCommandHandler> logger,
-            IChartOfAccountsRepository repository,
-            IMapper mapper
+            IChartOfAccountsRepository repository
             ) : IRequestHandler<ChartOfAccountsDeleteCommand>
     {
         public async Task Handle(ChartOfAccountsDeleteCommand request, CancellationToken cancellationToken)

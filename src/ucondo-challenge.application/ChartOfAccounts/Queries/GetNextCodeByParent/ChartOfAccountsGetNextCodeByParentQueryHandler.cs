@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using ucondo_challenge.business.Entities;
@@ -9,8 +8,7 @@ namespace ucondo_challenge.application.ChartOfAccounts.Queries.GetByParent;
 
 public class ChartOfAccountsGetNextCodeByParentQueryHandler(
     ILogger<ChartOfAccountsGetByParentQuery> logger,
-    IChartOfAccountsRepository repository,
-    IMapper mapper
+    IChartOfAccountsRepository repository
     ): IRequestHandler<ChartOfAccountsGetNextCodeByParentQuery, string>
 {
     public  async Task<string> Handle(ChartOfAccountsGetNextCodeByParentQuery request, CancellationToken cancellationToken)

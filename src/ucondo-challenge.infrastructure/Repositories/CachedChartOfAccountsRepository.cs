@@ -18,10 +18,6 @@ internal class CachedChartOfAccountsRepository(
 
     public async Task<Guid> CreateAsync(ChartOfAccountsEntity entity, CancellationToken cancellationToken)
     {
-        try
-        {
-
-        
         dbContext.ChartOfAccounts.Add(entity);
         await dbContext.SaveChangesAsync();
 
@@ -30,13 +26,6 @@ internal class CachedChartOfAccountsRepository(
         await cache.SetAsync($"{CacheKey}:{entity.TenantId}", cachedRegisters, DefaultCacheTime.ExpiresInYear);
        
         return entity.Id;
-
-        }
-        catch (Exception ex)
-        {
-
-            throw ex;
-        }
     }
 
     public async Task<int> DeleteAsync(ChartOfAccountsEntity entity, CancellationToken cancellationToken)

@@ -1,8 +1,6 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Text;
-using ucondo_challenge.application.ChartOfAccounts.Commands.Update;
+using ucondo_challenge.application.ChartOfAccounts.Mapping;
 using ucondo_challenge.business.Entities;
 using ucondo_challenge.business.Exceptions;
 using ucondo_challenge.business.Repositories;
@@ -11,8 +9,7 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Update
 {
     public sealed class ChartOfAccountsUpdateCommandHandler(
             ILogger<ChartOfAccountsUpdateCommandHandler> logger,
-            IChartOfAccountsRepository repository,
-            IMapper mapper
+            IChartOfAccountsRepository repository
             ) : IRequestHandler<ChartOfAccountsUpdateCommand>
     {
         public async Task Handle(ChartOfAccountsUpdateCommand request, CancellationToken cancellationToken)
@@ -26,9 +23,7 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Update
 
             await Validations(request, entity, cancellationToken);
 
-            mapper.Map(request, entity);
-
-            await repository.UpdateAsync(entity, cancellationToken);
+            await repository.UpdateAsync(entity.MapCommandUpdateToEntity(request), cancellationToken);
         }
 
         private async Task Validations(ChartOfAccountsUpdateCommand request, ChartOfAccountsEntity entity, CancellationToken cancellationToken)

@@ -31,9 +31,10 @@ namespace ucondo_challenge.infrastructure.Extensions
                 DatabaseInitializer.MigrateDatabase(context);
             }
 
-            services.AddScoped<IRedisCache,RedisCache>();
-            services.AddScoped<IChartOfAccountsRepository, ChartOfAccountsRepository>();
+            services.AddScoped<IChartOfAccountsRepository, CachedChartOfAccountsRepository>();
+            //services.AddScoped<IChartOfAccountsRepository, ChartOfAccountsRepository>();
             services.AddScoped<IUCondoChallengeSeeder, UCondoChallengeSeeder>();
+            services.AddScoped<IRedisCache,RedisCache>();
         }
     }
 }

@@ -12,7 +12,6 @@ namespace ucondo_challenge.application.Extensions
             var applicationAssembly = typeof(ServiceCollectionExtensions).Assembly;
            
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
-            services.AddAutoMapper(applicationAssembly);
 
             services.AddValidatorsFromAssembly(applicationAssembly)
                 .AddFluentValidationAutoValidation();

@@ -1,8 +1,6 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Text;
-using ucondo_challenge.business.Entities;
+using ucondo_challenge.application.ChartOfAccounts.Mapping;
 using ucondo_challenge.business.Exceptions;
 using ucondo_challenge.business.Repositories;
 
@@ -10,8 +8,7 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
 {
     public sealed class ChartOfAccountsCreateCommandHandler(
             ILogger<ChartOfAccountsCreateCommandHandler> logger,
-            IChartOfAccountsRepository repository,
-            IMapper mapper
+            IChartOfAccountsRepository repository
             ) : IRequestHandler<ChartOfAccountsCreateCommand, Guid>
     {
         public async Task<Guid> Handle(ChartOfAccountsCreateCommand request, CancellationToken cancellationToken)
@@ -20,7 +17,7 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
             
             await Validations(request, cancellationToken);
 
-            var entity = mapper.Map<ChartOfAccountsEntity>(request);
+            var entity = request.MapCommandCreateToEntity();
 
             var result = await repository.CreateAsync(entity, cancellationToken);
 

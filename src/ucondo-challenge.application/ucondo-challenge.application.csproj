@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ucondo-challenge.business\ucondo-challenge.business.csproj" />
+    <Compile Remove="ChartOfAccounts\Commands\Create\ChartOfAccountsCreateCommandMapper.cs" />
+    <Compile Remove="ChartOfAccounts\Commands\Update\ChartOfAccountsUpdateCommandMapper.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <ProjectReference Include="..\ucondo-challenge.business\ucondo-challenge.business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>    
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
