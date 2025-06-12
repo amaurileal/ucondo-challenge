@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ucondo_challenge.infrastructure.Persistence;
@@ -11,9 +12,11 @@ using ucondo_challenge.infrastructure.Persistence;
 namespace ucondo_challenge.infrastructure.Migrations
 {
     [DbContext(typeof(UCondoChallengeDbContext))]
-    partial class UCondoChallengeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612031019_remove_unique_name")]
+    partial class remove_unique_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,4 +1,5 @@
-﻿using ucondo_challenge.business.Enum;
+﻿using System.Text.Json;
+using ucondo_challenge.business.Enum;
 
 namespace ucondo_challenge.business.Entities
 {
@@ -11,5 +12,10 @@ namespace ucondo_challenge.business.Entities
         public string Code { get; set; }
         public Guid? ParentId { get; set; }
         public ChartOfAccountsEntity? Parent { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

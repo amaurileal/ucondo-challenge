@@ -1,14 +1,16 @@
-﻿namespace ucondo_challenge.api.Extensions
+﻿using ucondo_challenge.api.Middleware;
+
+namespace ucondo_challenge.api.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
         public static void AddPresentation(this WebApplicationBuilder builder)
         {
-            // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
             builder.Services.AddEndpointsApiExplorer();
-
+            builder.Services.AddScoped<ErrorHandlingMiddleware>();
+            builder.Services.AddRedisConfiguration(builder.Configuration);
 
             builder.Services.AddCors(options =>
             {

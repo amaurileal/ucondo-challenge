@@ -1,15 +1,15 @@
 ﻿using FluentValidation;
 
-namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
+namespace ucondo_challenge.application.ChartOfAccounts.Commands.Update
 {
-    public class ChartOfAccountsCreateCommandValidator : AbstractValidator<ChartOfAccountsCreateCommand>
+    public class ChartOfAccountsUpdateCommandValidator : AbstractValidator<ChartOfAccountsUpdateCommand>
     {
-        public ChartOfAccountsCreateCommandValidator()
+        public ChartOfAccountsUpdateCommandValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Nome é obrigatório.")
                 .MaximumLength(100).WithMessage("Nome não pode exceder 100 caracteres.");
-            
+
             RuleFor(x => x.Code)
             .NotEmpty()
             .WithMessage("O campo não pode ser vazio.")
@@ -44,5 +44,6 @@ namespace ucondo_challenge.application.ChartOfAccounts.Commands.Create
             }
             return false;
         }
+
     }
 }
