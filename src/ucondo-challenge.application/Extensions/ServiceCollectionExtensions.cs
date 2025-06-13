@@ -16,7 +16,7 @@ namespace ucondo_challenge.application.Extensions
             services.AddValidatorsFromAssembly(applicationAssembly)
                 .AddFluentValidationAutoValidation();
 
-            services.AddHttpContextAccessor();
+            //services.AddHttpContextAccessor();
         }
     }
 }

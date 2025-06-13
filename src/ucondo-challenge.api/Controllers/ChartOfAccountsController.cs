@@ -8,6 +8,7 @@ using ucondo_challenge.application.ChartOfAccounts.Commands.Create;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Delete;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Dtos;
 using ucondo_challenge.application.ChartOfAccounts.Commands.Update;
+using ucondo_challenge.application.ChartOfAccounts.Queries.GetAll;
 using ucondo_challenge.application.ChartOfAccounts.Queries.GetAllParents;
 using ucondo_challenge.application.ChartOfAccounts.Queries.GetByParent;
 
@@ -36,6 +37,13 @@ namespace ucondo_challenge.api.Controllers
         public async Task<ActionResult<ChartOfAccountsDto?>> GetById([FromHeader]Guid tenantId, Guid id)
         {
             var dto = await mediator.Send(new ChartOfAccountsGetByIdQuery(tenantId, id));
+            return Ok(dto);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ChartOfAccountsDto?>> GetAll([FromHeader] Guid tenantId)
+        {
+            var dto = await mediator.Send(new ChartOfAccountsGetAllQuery(tenantId));
             return Ok(dto);
         }
 

@@ -9,9 +9,9 @@ namespace ucondo_challenge.application.ChartOfAccounts.Queries.GetByParent;
 public class ChartOfAccountsGetNextCodeByParentQueryHandler(
     ILogger<ChartOfAccountsGetByParentQuery> logger,
     IChartOfAccountsRepository repository
-    ): IRequestHandler<ChartOfAccountsGetNextCodeByParentQuery, string>
+    ) : IRequestHandler<ChartOfAccountsGetNextCodeByParentQuery, string>
 {
-    public  async Task<string> Handle(ChartOfAccountsGetNextCodeByParentQuery request, CancellationToken cancellationToken)
+    public async Task<string> Handle(ChartOfAccountsGetNextCodeByParentQuery request, CancellationToken cancellationToken)
     {
         logger.LogInformation($"TenantId:{request.TenantId}. Getting next code for Chart of Accounts by parent with details: {request.ToString()}");
 
@@ -24,38 +24,41 @@ public class ChartOfAccountsGetNextCodeByParentQueryHandler(
         if (parentEntity == null)
             throw new NotFoundException(nameof(ChartOfAccountsEntity), request.ParentId.ToString());
 
-        var registers = await  repository.GetAllByParentId(request.TenantId, request.ParentId, cancellationToken);
+        var registers = await repository.GetAllByParentId(request.TenantId, request.ParentId, cancellationToken);
 
-        string nextCode = await GetNextCodeByParentRecursive(request.TenantId, parentEntity.Code, registers.ToList(),cancellationToken);
+        if(!registers.Any())
+            return $"Codigo:{parentEntity.Code}.1";
+
+        string nextCode = await GetNextCodeByParentRecursive(request.TenantId, parentEntity.Code, registers.ToList(), cancellationToken);
 
         return nextCode;
 
     }
 
     private async Task<string> GetNextCodeByParentRecursive(Guid tenantId, string parentCode, List<ChartOfAccountsEntity> registers, CancellationToken cancellationToken, string result = null)
-    {        
-        var maiorNumero = registers
+    {
+        var maxNumber = registers
             .Select(x => x.Code.Split('.').Last())
             .Select(numStr => int.Parse(numStr))
             .Max();
 
-            if (maiorNumero < 999)
+        if (maxNumber < 999)
         {
-            result += $"Codigo:{parentCode}.{(maiorNumero + 1)}";
+            result += $"Codigo:{parentCode}.{(maxNumber + 1)}";
         }
         else
         {
             int lastDotIndex = parentCode.LastIndexOf('.');
-            string newCode = (lastDotIndex!=-1)? parentCode.Substring(0, lastDotIndex) : (int.Parse(parentCode) - 1).ToString();
+            string newCode = (lastDotIndex != -1) ? parentCode.Substring(0, lastDotIndex) : (int.Parse(parentCode) - 1).ToString();
 
-            result += $"Atingiu Max: {parentCode}.{maiorNumero}. Novo Pai deve ser: {newCode}. ";
+            result += $"Atingiu Max: {parentCode}.{maxNumber}. Novo Pai deve ser: {newCode}. ";
 
             var newParentId = await repository.GetByCodeAsync(tenantId, newCode, cancellationToken);
 
             if (newParentId == null)
                 throw new BadRequestException($"TenantId:{tenantId}. {result}. Esse codigo pai não existe!");
 
-            var newRegisters = await repository.GetAllByParentId(tenantId, newParentId.Id,cancellationToken);
+            var newRegisters = await repository.GetAllByParentId(tenantId, newParentId.Id, cancellationToken);
             return await GetNextCodeByParentRecursive(tenantId, newCode, newRegisters.ToList(), cancellationToken, result);
         }
 
