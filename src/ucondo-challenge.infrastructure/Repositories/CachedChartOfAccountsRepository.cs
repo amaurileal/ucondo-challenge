@@ -4,11 +4,12 @@ using ucondo_challenge.business.Repositories;
 using ucondo_challenge.infrastructure.Cache;
 using ucondo_challenge.infrastructure.Persistence;
 using ucondo_challenge.infrastructure.teste;
+using ucondo_challenge.infrastructure.Utils;
 
 namespace ucondo_challenge.infrastructure.Repositories;
 
 internal class CachedChartOfAccountsRepository(
-    UCondoChallengeDbContext dbContext, 
+    UCondoChallengeDbContext dbContext,
     IRedisCache cache
     ) : IChartOfAccountsRepository
 {
@@ -24,7 +25,7 @@ internal class CachedChartOfAccountsRepository(
         var cachedRegisters = await GetCachedRegistersAsync(entity.TenantId);
         cachedRegisters.Add(entity);
         await cache.SetAsync($"{CacheKey}:{entity.TenantId}", cachedRegisters, DefaultCacheTime.ExpiresInYear);
-       
+
         return entity.Id;
     }
 
@@ -35,7 +36,7 @@ internal class CachedChartOfAccountsRepository(
 
         var cachedRegisters = await GetCachedRegistersAsync(entity.TenantId);
         var newRegister = cachedRegisters.Where(coa => coa.Id != entity.Id);
-        
+
         await cache.SetAsync($"{CacheKey}:{entity.TenantId}", newRegister, DefaultCacheTime.ExpiresInYear);
 
         return result;
@@ -49,10 +50,11 @@ internal class CachedChartOfAccountsRepository(
             return registers;
 
         var result = await dbContext.ChartOfAccounts
-                .Where(coa => coa.TenantId == tenantId)
-                .ToListAsync(cancellationToken);
+                .Where(coa => coa.TenantId == tenantId).ToListAsync(cancellationToken);
 
-        await cache.SetAsync($"{CacheKey}:{tenantId}", result, DefaultCacheTime.ExpiresInYear);
+        var orderedResult = result.OrderByCode(x => x.Code);
+
+        await cache.SetAsync($"{CacheKey}:{tenantId}", orderedResult, DefaultCacheTime.ExpiresInYear);
 
         return result;
     }
@@ -63,7 +65,7 @@ internal class CachedChartOfAccountsRepository(
 
         if (cachedRegisters.Any())
         {
-            cachedRegisters =  cachedRegisters
+            cachedRegisters = cachedRegisters
              .Where(coa => coa.AllowEntries == false)
              .ToList();
         }
@@ -111,8 +113,8 @@ internal class CachedChartOfAccountsRepository(
     }
 
     public Task SaveChanges() => dbContext.SaveChangesAsync();
-    
-    
+
+
 
     public async Task<ChartOfAccountsEntity?> GetByCodeAsync(Guid tenantId, string code, CancellationToken cancellationToken)
     {
@@ -164,10 +166,10 @@ internal class CachedChartOfAccountsRepository(
                 existingEntity.Code = entity.Code;
                 existingEntity.AllowEntries = entity.AllowEntries;
                 existingEntity.ParentId = entity.ParentId;
-                
+
                 dbContext.ChartOfAccounts.Update(existingEntity);
                 await dbContext.SaveChangesAsync(cancellationToken);
-                
+
                 await cache.SetAsync($"{CacheKey}:{entity.TenantId}", cachedRegisters, DefaultCacheTime.ExpiresInYear);
             }
         }
@@ -178,5 +180,28 @@ internal class CachedChartOfAccountsRepository(
         var allDbRegistersByTenant = await dbContext.ChartOfAccounts.Where(coa => coa.TenantId == tenantId).ToListAsync(cancellationToken);
         await cache.RemoveAsync($"{CacheKey}:{tenantId}");
         await cache.SetAsync($"{CacheKey}:{tenantId}", allDbRegistersByTenant, DefaultCacheTime.ExpiresInYear);
+    }
+}
+
+public class ComparadorHierarquico : IComparer<IEnumerable<int>>
+{
+    public int Compare(IEnumerable<int> x, IEnumerable<int> y)
+    {
+        var enumX = x.GetEnumerator();
+        var enumY = y.GetEnumerator();
+
+        while (true)
+        {
+            var hasNextX = enumX.MoveNext();
+            var hasNextY = enumY.MoveNext();
+
+            if (!hasNextX && !hasNextY) return 0; // Iguais
+            if (!hasNextX) return -1;
+            if (!hasNextY) return 1;
+
+            int cmp = enumX.Current.CompareTo(enumY.Current);
+            if (cmp != 0)
+                return cmp;
+        }
     }
 }

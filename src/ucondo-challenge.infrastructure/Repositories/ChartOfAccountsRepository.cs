@@ -2,6 +2,7 @@
 using ucondo_challenge.business.Entities;
 using ucondo_challenge.business.Repositories;
 using ucondo_challenge.infrastructure.Persistence;
+using ucondo_challenge.infrastructure.Utils;
 
 namespace ucondo_challenge.infrastructure.Repositories
 {
@@ -28,8 +29,10 @@ namespace ucondo_challenge.infrastructure.Repositories
             var result = await dbContext.ChartOfAccounts
                 .Where(coa => coa.TenantId == tenantId)
                 .ToListAsync(cancellationToken);
+            
+            var orderedResult = result.OrderByCode(x => x.Code);
 
-            return result;
+            return orderedResult;
         }
 
         public async Task<IEnumerable<ChartOfAccountsEntity>> GetAllParentsAsync(Guid tenantId, CancellationToken cancellationToken)
